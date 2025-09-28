@@ -1,185 +1,256 @@
-# Hospital POS System - Test Plan & Documentation
+# Hospital POS Management System
 
-## System Overview
-The Hospital POS System is a comprehensive point-of-sale application for healthcare facilities, built with React frontend and Node.js/Express backend with SQLite database.
+A comprehensive Point of Sale (POS) system designed specifically for hospital and healthcare facility management. This system provides role-based dashboards for different healthcare professionals and administrative staff.
 
-## Features Completed
+## 🏥 Features
 
-### ✅ Step 1: Project Setup
-- React frontend with TypeScript
-- Node.js/Express backend with SQLite
-- JWT authentication
-- Role-based routing (/admin, /cashier, /doctor, /lab, /pharmacy)
-- Bootstrap UI framework
+### Multi-Role Dashboard Support
+- **Admin Dashboard**: Complete system management and oversight
+- **Doctor Dashboard**: Patient consultations, prescriptions, and medical records
+- **Cashier Dashboard**: Payment processing and transaction management
+- **Lab Dashboard**: Laboratory test management and results
+- **Pharmacy Dashboard**: Medication dispensing and inventory
 
-### ✅ Step 2: User & Role Management
-- User authentication system
-- Role-based access control
-- Admin can create/manage users (cashier, doctor, lab, pharmacy)
-- Password reset functionality
-- Default admin account: `admin` / `admin123`
+### Core Functionality
+- **Patient Management**: Registration, records, and search functionality
+- **Payment Processing**: Secure transaction handling with receipt generation
+- **Prescription Management**: Digital prescription creation and tracking
+- **Laboratory Services**: Test ordering and result management
+- **Pharmacy Integration**: Medication dispensing workflow
+- **Reports & Analytics**: Comprehensive reporting system
+- **User Management**: Role-based access control
 
-### ✅ Step 3: Patient Registration
-- Patient registration with auto-generated hospital numbers
-- Hospital number format: HOS{YEAR}{4-digit-counter} (e.g., HOS20250001)
-- Patient types: New/Revisit
-- Patient data: Name, age, gender, contact
-- Cashier dashboard for patient management
+## 🛠️ Technology Stack
 
-### ✅ Step 4: Service Management
-- Admin can create/edit/delete services
-- Service categories: Medical, Laboratory, Radiology, Pharmacy, etc.
-- Price management in Nigerian Naira (NGN)
-- Default services pre-loaded
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web application framework
+- **SQLite/PostgreSQL** - Database options
+- **bcrypt** - Password hashing
+- **jsonwebtoken** - Authentication
+- **cors** - Cross-origin resource sharing
 
-### ✅ Step 5: Consultation & Doctor Flow
-- Payment processing for consultations
-- Doctor dashboard shows paid consultations
-- Doctor can prescribe additional services
-- Prescriptions create pending payments for cashier
+### Frontend
+- **React** - User interface library
+- **TypeScript** - Type-safe JavaScript
+- **CSS3** - Styling and responsive design
+- **Context API** - State management
 
-### ✅ Step 6: Cashier Processing
-- Payment processing interface
-- Pending payments management
-- Receipt generation
-- Service routing to appropriate departments
+## 📋 Prerequisites
 
-### ✅ Step 7: Department Dashboards
-- **Lab Dashboard**: View pending tests, mark as completed
-- **Pharmacy Dashboard**: View pending prescriptions, mark as dispensed
-- Real-time status updates across system
+Before running this application, make sure you have the following installed:
 
-### ✅ Step 8: Reporting
-- Revenue reports by department/category
-- Daily revenue tracking
-- Department performance metrics
-- Patient statistics
-- Date range filtering
+- **Node.js** (version 14.0 or higher)
+- **npm** (comes with Node.js)
+- **Git** (for version control)
 
-## Test Workflow
+## 🚀 Installation & Setup
 
-### Complete Patient Journey Test:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/YOUR_USERNAME/hospital-pos-system.git
+cd hospital-pos-system
+```
 
-1. **Admin Setup**
-   - Login as admin (`admin` / `admin123`)
-   - Create users: cashier, doctor, lab technician, pharmacist
-   - Add/verify services in system
+### 2. Backend Setup
+```bash
+# Navigate to backend directory
+cd backend
 
-2. **Patient Registration** (Cashier Role)
-   - Login as cashier
-   - Register new patient
-   - Verify hospital number generation
+# Install dependencies
+npm install
 
-3. **Consultation Payment** (Cashier Role)
-   - Process consultation payment for patient
-   - Verify payment recorded and patient appears in doctor queue
+# Set up the database
+node scripts/setup-database.js
 
-4. **Doctor Consultation** (Doctor Role)
-   - Login as doctor
-   - View paid consultations
-   - Select patient and prescribe services (lab test + medication)
-   - Verify prescriptions create pending payments
+# Start the backend server
+npm start
+```
 
-5. **Additional Payments** (Cashier Role)
-   - Return to cashier dashboard
-   - Process payments for prescribed services
-   - Verify services route to correct departments
+The backend server will run on `http://localhost:5000`
 
-6. **Lab Processing** (Lab Role)
-   - Login as lab technician
-   - View pending lab tests
-   - Mark test as completed
-   - Verify status updates
+### 3. Frontend Setup
+```bash
+# Open a new terminal and navigate to frontend directory
+cd frontend
 
-7. **Pharmacy Processing** (Pharmacy Role)
-   - Login as pharmacist
-   - View pending prescriptions
-   - Dispense medication
-   - Verify status updates
+# Install dependencies
+npm install
 
-8. **Reporting** (Admin Role)
-   - View revenue reports
-   - Check department performance
-   - Verify all transactions recorded
+# Start the development server
+npm start
+```
 
-## API Endpoints
+The frontend application will run on `http://localhost:3000`
+
+## 🔧 Configuration
+
+### Database Configuration
+The system supports both SQLite and PostgreSQL databases. Configuration files are located in:
+- `backend/config/database-sqlite.js` - SQLite configuration
+- `backend/config/database-postgres.js` - PostgreSQL configuration
+
+### Environment Variables
+Create a `.env` file in the backend directory:
+```env
+PORT=5000
+JWT_SECRET=your_jwt_secret_here
+DB_TYPE=sqlite
+# For PostgreSQL:
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=hospital_pos
+# DB_USER=your_username
+# DB_PASSWORD=your_password
+```
+
+## 👥 Default User Accounts
+
+After running the database setup, you can log in with these default accounts:
+
+| Role | Username | Password |
+|------|----------|----------|
+| Admin | admin | admin123 |
+| Doctor | doctor | doctor123 |
+| Cashier | cashier | cashier123 |
+| Lab | lab | lab123 |
+| Pharmacy | pharmacy | pharmacy123 |
+
+⚠️ **Important**: Change these default passwords before deploying to production!
+
+## 🏗️ Project Structure
+
+```
+hospital-pos-system/
+├── backend/
+│   ├── config/          # Database configurations
+│   ├── middleware/      # Authentication middleware
+│   ├── routes/          # API routes
+│   ├── scripts/         # Database setup scripts
+│   ├── package.json
+│   └── server.js        # Main server file
+├── frontend/
+│   ├── public/          # Static assets
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── contexts/    # React contexts
+│   │   └── ...
+│   ├── package.json
+│   └── tsconfig.json
+└── README.md
+```
+
+## 📖 Usage Guide
+
+### For Administrators
+1. Access the admin dashboard for complete system oversight
+2. Manage users, services, and system settings
+3. View comprehensive reports and analytics
+
+### For Doctors
+1. Register new patients or search existing ones
+2. Conduct consultations and create prescriptions
+3. Order laboratory tests and pharmacy services
+
+### For Cashiers
+1. Process patient payments
+2. Handle payment queues
+3. Generate receipts and manage transactions
+
+### For Lab Technicians
+1. Manage laboratory test orders
+2. Update test results
+3. Track lab service requests
+
+### For Pharmacy Staff
+1. Process prescription orders
+2. Manage medication dispensing
+3. Update inventory status
+
+## 🔗 API Endpoints
 
 ### Authentication
 - `POST /api/auth/login` - User login
 - `POST /api/auth/logout` - User logout
 
-### Users
-- `GET /api/users` - List users (admin only)
-- `POST /api/users` - Create user (admin only)
-- `PUT /api/users/:id/reset-password` - Reset password (admin only)
-- `DELETE /api/users/:id` - Delete user (admin only)
-
 ### Patients
-- `GET /api/patients` - List patients
-- `POST /api/patients` - Register patient (cashier/admin)
-
-### Services
-- `GET /api/services` - List services
-- `POST /api/services` - Create service (admin only)
-- `PUT /api/services/:id` - Update service (admin only)
-- `DELETE /api/services/:id` - Delete service (admin only)
+- `GET /api/patients` - Get all patients
+- `POST /api/patients` - Register new patient
+- `GET /api/patients/:id` - Get patient by ID
 
 ### Transactions
-- `GET /api/transactions` - List transactions (with filters)
-- `POST /api/transactions` - Create payment transaction
-- `PUT /api/transactions/:id/status` - Update transaction status
-- `POST /api/transactions/prescribe` - Doctor prescribe services
+- `GET /api/transactions` - Get all transactions
+- `POST /api/transactions` - Create new transaction
 
-### Reports
-- `GET /api/reports/revenue` - Revenue summary
-- `GET /api/reports/daily-revenue` - Daily revenue
-- `GET /api/reports/department-performance` - Department stats
-- `GET /api/reports/patient-stats` - Patient statistics
+### Services
+- `GET /api/services` - Get all services
+- `POST /api/services` - Create new service
 
-## Database Schema
+### Users
+- `GET /api/users` - Get all users
+- `POST /api/users` - Create new user
 
-### Tables Created:
-1. **users** - System users with roles
-2. **patients** - Patient information
-3. **services** - Hospital services catalog
-4. **transactions** - Payment and service records
-5. **hospital_settings** - System configuration
+## 🧪 Testing
 
-## Security Features
-- JWT token authentication
-- Role-based access control
-- Password hashing with bcrypt
-- Input validation and sanitization
-
-## Technology Stack
-- **Frontend**: React 19, TypeScript, React Router, Axios, Bootstrap 5
-- **Backend**: Node.js, Express.js, SQLite3, JWT, bcryptjs
-- **Development**: Nodemon, Create React App
-
-## Running the Application
-
-### Backend (Terminal 1):
+To run tests (if implemented):
 ```bash
+# Backend tests
 cd backend
-npm run dev
-# Server runs on http://localhost:5000
-```
+npm test
 
-### Frontend (Terminal 2):
-```bash
+# Frontend tests
 cd frontend
-npm start
-# Application runs on http://localhost:3000
+npm test
 ```
 
-## Default Credentials
-- **Admin**: `admin` / `admin123`
+## 🚀 Deployment
 
-## Browser Testing
-1. Open http://localhost:3000
-2. Login with admin credentials
-3. Follow the complete workflow test above
-4. Verify all features work end-to-end
+### Development
+Both frontend and backend run in development mode with hot reloading enabled.
 
-## System Status: ✅ COMPLETE
-All 9 steps implemented and functional. The system is ready for production use with proper data seeding and additional testing.
+### Production
+1. Build the frontend:
+   ```bash
+   cd frontend
+   npm run build
+   ```
+
+2. Configure your production database and environment variables
+
+3. Deploy using your preferred hosting service (Heroku, AWS, DigitalOcean, etc.)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Commit your changes: `git commit -m 'Add new feature'`
+4. Push to the branch: `git push origin feature/new-feature`
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+1. Check the existing issues on GitHub
+2. Create a new issue with detailed information
+3. Contact the development team
+
+## 🔄 Version History
+
+- **v1.0.0** - Initial release with core POS functionality
+- **v1.1.0** - Enhanced doctor portal and prescribed services
+
+## ⚠️ Security Notes
+
+- Always use HTTPS in production
+- Regularly update dependencies
+- Change default passwords
+- Implement proper backup strategies
+- Follow healthcare data protection regulations (HIPAA, etc.)
+
+---
+
+**Built with ❤️ for healthcare professionals**
