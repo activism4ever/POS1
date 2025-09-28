@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 
 // PostgreSQL connection configuration
 const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 5432,
   database: process.env.DB_NAME || 'hospital_pos',
@@ -389,6 +390,28 @@ const db = {
       idleCount: pool.idleCount,
       waitingCount: pool.waitingCount
     };
+  },
+  
+  // Health check
+  healthCheck: async () => {
+    const client = await pool.connect();
+    try {
+      await client.query('SELECT 1');
+      return {
+        status: 'healthy',
+        database: 'postgresql',
+        timestamp: new Date().toISOString()
+      };
+    } catch (error) {
+      return {
+        status: 'unhealthy',
+        database: 'postgresql',
+        error: error.message,
+        timestamp: new Date().toISOString()
+      };
+    } finally {
+      client.release();
+    }
   }
 };
 
